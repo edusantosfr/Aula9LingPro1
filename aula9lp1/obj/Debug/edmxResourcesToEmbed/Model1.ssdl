@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="tabelasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Cidade">
+    <Key>
+      <PropertyRef Name="IdCidade" />
+    </Key>
+    <Property Name="IdCidade" Type="int" Nullable="false" />
+    <Property Name="NomeCidade" Type="varchar" MaxLength="50" />
+    <Property Name="UF" Type="varchar" MaxLength="50" />
+    <Property Name="Pais" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="EstadoCivil">
+    <Key>
+      <PropertyRef Name="IdEstadoCivil" />
+    </Key>
+    <Property Name="IdEstadoCivil" Type="int" Nullable="false" />
+    <Property Name="Descricao" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Pessoa">
+    <Key>
+      <PropertyRef Name="IdPessoa" />
+    </Key>
+    <Property Name="IdPessoa" Type="int" Nullable="false" />
+    <Property Name="NomePessoa" Type="varchar" MaxLength="50" />
+    <Property Name="DtNasc" Type="date" />
+    <Property Name="IdCidade" Type="int" />
+    <Property Name="IdEstadoCivil" Type="int" />
+  </EntityType>
+  <Association Name="FK_Pessoa_ToCidade">
+    <End Role="Cidade" Type="Self.Cidade" Multiplicity="0..1" />
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cidade">
+        <PropertyRef Name="IdCidade" />
+      </Principal>
+      <Dependent Role="Pessoa">
+        <PropertyRef Name="IdCidade" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Pessoa_ToEstadoCivil">
+    <End Role="EstadoCivil" Type="Self.EstadoCivil" Multiplicity="0..1" />
+    <End Role="Pessoa" Type="Self.Pessoa" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EstadoCivil">
+        <PropertyRef Name="IdEstadoCivil" />
+      </Principal>
+      <Dependent Role="Pessoa">
+        <PropertyRef Name="IdEstadoCivil" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="tabelasModelStoreContainer">
+    <EntitySet Name="Cidade" EntityType="Self.Cidade" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EstadoCivil" EntityType="Self.EstadoCivil" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pessoa" EntityType="Self.Pessoa" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Pessoa_ToCidade" Association="Self.FK_Pessoa_ToCidade">
+      <End Role="Cidade" EntitySet="Cidade" />
+      <End Role="Pessoa" EntitySet="Pessoa" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Pessoa_ToEstadoCivil" Association="Self.FK_Pessoa_ToEstadoCivil">
+      <End Role="EstadoCivil" EntitySet="EstadoCivil" />
+      <End Role="Pessoa" EntitySet="Pessoa" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
